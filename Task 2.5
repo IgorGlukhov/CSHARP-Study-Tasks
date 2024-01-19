@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Globalization;
+
+namespace Task_2._5
+{
+    class User
+    {
+        private string lastname;
+        private string firstname;
+        private string patronimic;
+
+        private readonly DateTime dateofbirth;
+        public User(string lastname, string firstname, string patronimic, DateTime dateofbirth)
+        {
+            if (DateTime.Compare(DateTime.Today, dateofbirth) < 0)
+            {
+                throw new ArgumentException("You were never born, " + lastname + " " + firstname + " " + patronimic);
+            }
+            this.lastname = lastname;
+            this.firstname = firstname;
+            this.patronimic = patronimic;
+            this.dateofbirth = dateofbirth;
+        }
+
+        public DateTime Dateofbirth => dateofbirth;
+        public string Lastname { get { return lastname; } set { lastname = value; } }
+        public string Firstname { get { return firstname; } set { firstname = value; } }
+        public string Patronimic { get { return patronimic; } set { patronimic = value; } }
+        public int Age
+        {
+            get
+            {
+                if (dateofbirth.DayOfYear > DateTime.Today.DayOfYear)
+                {
+                    return DateTime.Today.Year - dateofbirth.Year - 1;
+                }
+                return DateTime.Today.Year - dateofbirth.Year;
+            }
+        }        
+    }
+    class Employee : User
+    {
+        private string position;
+
+        private readonly DateTime dateofemployment;
+        public Employee(string lastname, string firstname, string patronimic, string position, DateTime dateofbirth, DateTime dateofemployment)
+            : base(lastname, firstname, patronimic, dateofbirth)
+        {
+            if (DateTime.Compare(DateTime.Today, dateofemployment) < 0)
+            {
+                throw new ArgumentException("You were never work, " + lastname + " " + firstname + " " + patronimic);
+            }
+            this.position = position;
+            this.dateofemployment = dateofemployment;
+        }
+        public DateTime Dateofemployment => dateofemployment;
+        public string Position { get { return position; } set { position = value; } }
+        public int Expirience
+        {
+            get
+            {
+                if (dateofemployment.DayOfYear > DateTime.Today.DayOfYear)
+                {
+                    return DateTime.Today.Year - dateofemployment.Year - 1;
+                }
+                return DateTime.Today.Year - dateofemployment.Year;
+            }
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите ваши ФИО через Enter:");
+            string lastname = Console.ReadLine();
+            string firstname = Console.ReadLine();
+            string patronimic = Console.ReadLine();
+            Console.WriteLine("Введите вашу должность:");
+            string position = Console.ReadLine();
+            Console.WriteLine("Введите дату вашего рождения (dd.MM.yyyy):");
+            DateTime dateofbirth = DateTime.ParseExact(Console.ReadLine(), "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            Console.WriteLine("Введите дату вашего трудоустройства (dd.MM.yyyy):");
+            DateTime dateofemployment = DateTime.ParseExact(Console.ReadLine(), "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            Employee employee = new Employee(lastname, firstname, patronimic, position, dateofbirth, dateofemployment);
+            Console.WriteLine("ФИО сотрудника: " + employee.Lastname + " " +
+            employee.Firstname + " " + employee.Patronimic + " Должность:" + employee.Position + " Стаж:" + employee.Expirience);
+        }
+    }
+}
