@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_1._8
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введите число элементов массива по x:");
+            int x = int.Parse(Console.ReadLine());
+            Console.Write("Введите число элементов массива по y:");
+            int y = int.Parse(Console.ReadLine());
+            Console.Write("Введите число элементов массива по z:");
+            int z = int.Parse(Console.ReadLine());
+            int[,,] arr = new int[x,y,z];
+            Console.Write("Введите значения элементов:");
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    for (int k = 0; k < z; k++)
+                    {
+                        arr[i, j, k] = int.Parse(Console.ReadLine());
+                    }
+                }
+            }
+            for (int i = 0; i < x; i++)
+            {
+                for ( int j = 0; j< y; j++)
+                {
+                    for ( int k = 0; k < z; k++)
+                    {
+                        if (arr[i, j, k] > 0)
+                        {
+                            arr[i, j, k] = 0;
+                        }
+                        Console.WriteLine(arr[i,j,k]);
+                    }
+                }               
+            }
+        }
+    }
+}
