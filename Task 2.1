@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_2._1
+{
+    class Round
+    {
+        private readonly int x;
+        private readonly int y;
+        private readonly int radius;
+        public Round(int radius)
+        {
+            if (radius <= 0)
+            {
+                throw new ArgumentException("Radius should be positive number", nameof(Radius));
+            }
+            this.radius = radius;
+        }
+        public Round(int x, int y, int radius)
+        {
+            if (radius <= 0)
+            {
+                throw new ArgumentException("Radius should be positive number", nameof(Radius));
+            }
+            this.radius = radius;
+            this.y = y;
+            this.x = x;
+        }
+        public int Radius => radius;
+        public int X => x;
+        public int Y => y;
+
+
+        public double GetArea()=> Math.PI * radius * radius;       
+
+        public double GetCircumflex() => Math.PI * radius * 2;
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите радиус круга:");
+            Round round= new Round(int.Parse(Console.ReadLine()));
+            Console.WriteLine("Площадь круга:" + round.GetArea());
+            Console.WriteLine("Длина окружности:" + round.GetCircumflex());
+        }
+    }
+}
