@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task 1._1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            uint a = uint.Parse(Console.ReadLine());
+            uint b = uint.Parse(Console.ReadLine());
+            uint area = a * b;
+            if (area > 0)
+            {
+                Console.WriteLine(area);
+            }
+            else
+            {
+                Console.WriteLine("Ochibka");
+            };
+            Console.ReadLine();
+        }
+    }
+}
