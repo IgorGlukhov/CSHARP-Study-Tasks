@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_1._11
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string str= Console.ReadLine().Trim();
+            int length = str.Length;
+            char[] arr = str.ToCharArray();
+            int countword = 0;
+            int lenghtword = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if (char.IsLetter(arr[i]))
+                    {
+                    lenghtword++;
+                    }
+            }
+            if (char.IsLetter(arr[1]))
+            {
+                countword++;
+            }
+            for (int i = 1; i < length; i++)
+            {
+                if (char.IsLetter(arr[i])&!char.IsLetter(arr[i-1]))
+                {
+                    countword++;
+                }
+            }
+            double averagelength=lenghtword/countword;
+            Console.WriteLine(averagelength);
+        }
+    }
+}
