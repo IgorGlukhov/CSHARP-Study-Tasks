@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_1._4
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+            for (int triangles = 0; triangles <= a; triangles++)
+            {
+                for ( int i = 1; i <= triangles; i++)
+                {
+                    int b = a - i;
+                    for (int j = 1; j <= b; j++)
+                    {
+                        Console.Write(" ");
+                    }
+                    int c = i + i - 1;
+                    for (int j = 1; j <= c; j++)
+                    {
+                        Console.Write("*");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            Console.ReadLine();
+        }
+    }
+}
