@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_2._6
+{
+    class Ring
+    {
+        private readonly int x;
+        private readonly int y;
+        private readonly int innerradius;
+        private readonly int outerradius;
+        public Ring(int innerradius, int outerradius)
+        {
+            if (innerradius <= 0)
+            {
+                throw new ArgumentException("Radius should be positive number", nameof(innerradius));
+            }
+            if (outerradius <= innerradius)
+            {
+                throw new ArgumentException("Outer radius should be greater than inner radius", nameof(outerradius));
+            }
+            this.innerradius = innerradius;
+            this.outerradius = outerradius; 
+        }
+        public Ring(int x, int y, int innerradius, int outerradius)
+        {
+            if (innerradius <= 0)
+            {
+                throw new ArgumentException("Radius should be positive number", nameof(innerradius));
+            }
+            if (outerradius <= innerradius)
+            {
+                throw new ArgumentException("Outer radius should be greater than inner radius", nameof(outerradius));
+            }
+            this.innerradius = innerradius;
+            this.outerradius = outerradius;
+            this.y = y;
+            this.x = x;
+        }
+        public int Innerradius=> this.innerradius;
+        public int Outerradius=> this.outerradius;  
+        public int X => x;
+        public int Y => y;
+
+        public double GetArea() => Math.PI * (outerradius * outerradius- innerradius* innerradius);
+
+        public double GetSumCircumflex() => Math.PI * (outerradius + innerradius) * 2;
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите координату центра кольца по Х: ");
+            int x = int.Parse(Console.ReadLine());
+            Console.WriteLine("Введите координату центра кольца по Y: ");
+            int y = int.Parse(Console.ReadLine());
+            Console.WriteLine("Введите внешний радиус кольца: ");
+            int outerradius = int.Parse(Console.ReadLine());
+            Console.WriteLine("Введите внутренний радиус кольца: ");
+            int innerradius = int.Parse(Console.ReadLine());
+
+            Ring ring = new Ring(x,y,innerradius,outerradius);
+            Console.WriteLine("Площадь круга:" + ring.GetArea());
+            Console.WriteLine("Длина окружности:" + ring.GetSumCircumflex());
+        }
+    }
+}
