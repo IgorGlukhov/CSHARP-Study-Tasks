@@ -1,0 +1,68 @@
+using System;
+using System.Text;
+
+namespace Task_2._4
+{
+    internal class Program
+    {
+        public class MyString
+        {
+            public static readonly MyString Empty;
+            public char[] chars;
+            public MyString(char[] chars)
+            {
+                this.chars = chars;
+            }
+                       
+            public int Length { get { return chars.Length; } }
+            public int Compare(char[] comparable)
+            { 
+
+                for (int i = 0; i < chars.Length; i++)
+                    for (int j = 0; j < comparable.Length; j++)
+                        if (comparable[j] == chars[i])
+                        {
+                            return 1;
+                        }
+                return 0;
+            }
+            public char[] Append (char[] appendable)
+            { 
+                int newlength=appendable.Length+chars.Length;
+                char[] newchars = new char[newlength];
+                for (int i = 0; i < chars.Length; i++)
+                {
+                     newchars[i] = chars[i];
+                }
+                for (int i = chars.Length; i < newlength; i++)
+                {
+                    newchars[i] = appendable[i-chars.Length];
+                }
+                return newchars;
+            }
+            public int IndexOf (char target) 
+            {
+                for (int i = 0; i < chars.Length; i++)
+                {
+                    if (chars[i] == target)
+                    {
+                        return i;
+                    }
+                }
+                  throw new ArgumentException("Failure");
+            }
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите слово: ");
+            char[] x = Console.ReadLine().ToCharArray();
+            char[] y = "Good".ToCharArray();
+            MyString chararr = new MyString(x);
+            Console.WriteLine(chararr.Length);
+            Console.WriteLine(chararr.Compare(y));
+            Console.WriteLine(chararr.Append(y));
+            Console.WriteLine(chararr.IndexOf(y[2]));
+
+        }
+    }
+}
