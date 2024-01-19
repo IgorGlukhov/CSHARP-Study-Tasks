@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_1._5
+{    
+    internal class Program
+    {
+                static void Main(string[] args)
+        { 
+            int sum = 0;     
+            int krat3 = 0;
+            int krat5=0;
+            while (krat3 < 1000) 
+            {
+                sum += krat3;
+                krat3 = krat3 + 3;
+            }
+            while (krat5 < 1000)
+            {
+                sum +=krat5;
+                krat5 = krat5 + 5;
+            }
+            Console.WriteLine(sum);
+            Console.ReadLine();
+        }
+    }
+}
