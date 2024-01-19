@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_1._12
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введите первую строку: "); 
+            string str1 = Console.ReadLine();
+            Console.Write("Введите вторую строку: ");
+            string str2 = Console.ReadLine();
+            int length1 = str1.Length;
+            char[] arr1 = str1.ToCharArray();
+            int length2 = str2.Length;
+            char[] arr2 = str2.ToCharArray();
+            var result = new StringBuilder();            
+            for (int i = 0; i < length1; i++)
+            {
+                for (int j = 0; j < length2; j++)
+                {
+                    if (char.Equals(arr1[i],arr2[j]))
+                    {
+                        result = result.Append(arr1[i]).Append(arr1[i]);
+                        goto End;
+                    } 
+                }
+                result=result.Append(arr1[i]);
+                End:;
+            }            
+            Console.WriteLine(result);
+        }
+    }
+}
