@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+[Flags]
+enum Highlight : byte
+{
+    None = 0,
+    Bold = 1,
+    Italic = 2,
+    BoldItalic = Highlight.Bold | Highlight.Italic,
+    Underline = 4,
+    BoldUnderline = Highlight.Bold | Highlight.Underline,
+    ItalicUnderline = Highlight.Italic | Highlight.Underline,
+    BoldItalicUnderline = Highlight.Bold | Highlight.Italic | Highlight.Underline,
+}
+namespace Task_1._5
+{
+    internal class Program
+    {
+        static void Output(Highlight x)
+        {
+            switch (x)
+            {
+                case Highlight.Bold: Console.WriteLine("Параметры надписи: Bold"); break;
+                case Highlight.Italic: Console.WriteLine("Параметры надписи: Italic"); break;
+                case Highlight.BoldItalic: Console.WriteLine("Параметры надписи: Bold, Italic"); break;
+                case Highlight.Underline: Console.WriteLine("Параметры надписи: Underline"); break;
+                case Highlight.BoldUnderline: Console.WriteLine("Параметры надписи: Bold, Underline"); break;
+                case Highlight.ItalicUnderline: Console.WriteLine("Параметры надписи: Italic, Underline"); break;
+                case Highlight.BoldItalicUnderline: Console.WriteLine("Параметры надписи: Bold, Italic, Underline"); break;
+                default: Console.WriteLine("Параметры надписи: None"); break;
+            }
+            Console.WriteLine("Введите:");
+            Console.WriteLine("1: Bold");
+            Console.WriteLine("2: Italic");
+            Console.WriteLine("3: Underline");
+        }
+        static void Main(string[] args)
+        {
+            Highlight a = new Highlight();
+            Output(a);
+            for (; ; )
+            {
+                byte b = byte.Parse(Console.ReadLine());
+                switch (b)
+                {
+                    case 1: a = a ^ Highlight.Bold; break;
+                    case 2: a = a ^ Highlight.Italic; break;
+                    case 3: a = a ^ Highlight.Underline; break;
+                    default: break;
+                }
+                Output(a);
+            }
+        }
+    }
+}
