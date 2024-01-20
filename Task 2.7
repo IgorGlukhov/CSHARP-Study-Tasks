@@ -1,0 +1,253 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_2._7
+{
+    interface IGraphics
+    {
+        void Draw();
+    }
+    public abstract class Figure : IGraphics
+    {
+        protected double x1;
+        protected double y1;
+        public double X1 => x1;
+        public double Y1 => y1;
+
+        protected Figure(double X1, double Y1)
+        {
+            this.x1 = X1;
+            this.y1 = Y1;   
+        }
+        public virtual void Draw()
+        {
+        }
+        public static Figure Enter()
+        {
+            throw new NotImplementedException();
+        }
+        public static Figure Choose()
+        {
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    return Line.Enter();
+                case "2":
+                    return Rectangle.Enter();
+                case "3":
+                    return Circle.Enter();
+                case "4":
+                    return Round.Enter();
+                case "5":
+                    return Ring.Enter();
+                    default:
+                    throw new NotImplementedException();
+            }
+        }
+}
+    public class Round : Figure, IGraphics
+    {
+        private double radius;
+        public double Radius => radius;
+        public Round(double X1, double Y1, double radius)
+            : base(X1, Y1)
+        {
+            if (radius <= 0)
+            {
+                throw new ArgumentException("Radius should be positive number", nameof(Radius));
+            }
+            this.radius = radius;
+        }      
+        public override void Draw()
+        {
+            Console.WriteLine("Drow the round");
+            Console.WriteLine("Coordinates: x={0}, y={1} ",X1, Y1);
+            Console.WriteLine("Radius: {0}",radius);
+        }
+        public static new Round Enter()
+        {
+                Console.WriteLine("Enter the coordinate x of the centre");
+                double x1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate y of the centre");
+                double y1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the radius");
+                double radius = double.Parse(Console.ReadLine());
+                Round round = new Round(x1, y1, radius);
+                return round;
+        }
+    }
+    public class Circle : Figure, IGraphics
+    {
+        private double radius;
+        public double Radius => radius;
+        public Circle(double X1, double Y1, double radius)
+            : base(X1, Y1)
+        {
+            if (radius <= 0)
+            {
+                throw new ArgumentException("Radius should be positive number", nameof(Radius));
+            }
+            this.radius = radius;
+        }
+        public override void Draw()
+        {
+            Console.WriteLine("Drow the circle");
+            Console.WriteLine("Coordinates: x={0}, y={1} ", X1, Y1);
+            Console.WriteLine("Radius: {0}", radius);
+        }
+        public static new Circle Enter()
+        {
+                Console.WriteLine("Enter the coordinate x of the centre");
+                double x1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate y of the centre");
+                double y1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the radius");
+                double radius = double.Parse(Console.ReadLine());
+                Circle circle = new Circle(x1, y1, radius);
+                return circle;
+        }
+    }
+    public class Ring : Figure, IGraphics
+    {
+        private double innerradius;
+        private double outerradius;
+        public double Inneradius => innerradius;
+        public double Outeradius => innerradius;
+        public Ring(double X1, double Y1, double innerradius, double outerradius)
+            : base(X1, Y1)
+        {
+            if (innerradius <= 0)
+            {
+                throw new ArgumentException("Radius should be positive number", nameof(innerradius));
+            }
+            if (outerradius <= innerradius)
+            {
+                throw new ArgumentException("Outer radius should be greater than inner radius", nameof(outerradius));
+            }
+            this.innerradius = innerradius;
+            this.outerradius = outerradius;
+        }
+        public override void Draw()
+        {
+            Console.WriteLine("Drow the ring");
+            Console.WriteLine("Coordinates: x={0}, y={1} ", X1, Y1);
+            Console.WriteLine("Innerradius: {0}", innerradius);
+            Console.WriteLine("Outerradius: {0}", outerradius);
+        }
+        public static new Ring Enter()
+        {
+                Console.WriteLine("Enter the coordinate x of the centre");
+                double x1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate y of the centre");
+                double y1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the inner radius");
+                double innerradius = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the inner radius");
+                double outerradius = double.Parse(Console.ReadLine());
+                Ring ring = new Ring(x1, y1, innerradius, outerradius);
+                return ring;
+        }
+    }
+    public class Line : Figure, IGraphics
+    {
+        private double x2;
+        private double y2;
+        public double X2 => x2;
+        public double Y2 => y2;
+        public Line(double X1, double Y1, double X2, double Y2)
+            : base(X1, Y1)
+        {
+            this.x2 = X2;
+            this.y2 = Y2;
+        }
+        public double Length() => Math.Sqrt((X1 - X2) * (X1 - X2) + (Y1 - Y2) * (Y1 - Y2));
+        public override void Draw()
+        {
+            Console.WriteLine("Drow the line");
+            Console.WriteLine("Coordinates: x1={0}, y1={1}, x2={2}, y2={3}", X1, Y1, X2, Y2);
+            Console.WriteLine("Lenght: {0}", Length());
+        }
+        public static new Line Enter()
+        {
+                Console.WriteLine("Enter the coordinate x of the beginning of the line");
+                double x1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate y of the beginning of the line");
+                double y1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate x of the end of the line");
+                double x2 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate y of the end of the line");
+                double y2 = double.Parse(Console.ReadLine());
+                Line line = new Line(x1, y1, x2, y2);
+                return line;
+        }
+    }
+    public class Rectangle : Figure, IGraphics
+    {
+        private double x2;
+        private double y2;
+        public double X2 => x2;
+        public double Y2 => y2;
+        public Rectangle(double X1, double Y1, double X2, double Y2)
+            : base(X1, Y1)
+        {
+            this.x2 = X2;
+            this.y2 = Y2;
+        }
+        public double Length() => Math.Abs(X1 - X2);
+        public double Width() => Math.Abs(Y1 - Y2);
+
+        public override void Draw()
+        {
+            Console.WriteLine("Drow the rectangle");
+            Console.WriteLine("Coordinates: x1={0}, y1={1}, x2={2}, y2={3}", X1, Y1, X2, Y2);
+            Console.WriteLine("Lenght: {0}", Length());
+            Console.WriteLine("Width: {0}", Width());
+        }
+        public static new Rectangle Enter()
+        {
+                Console.WriteLine("Enter the coordinate x of the first rectangle corner");
+                double x1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate y of the first rectangle corner");
+                double y1 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate x of the second rectangle corner");
+                double x2 = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the coordinate y of the second rectangle corner");
+                double y2 = double.Parse(Console.ReadLine());
+                Rectangle rectangle = new Rectangle(x1, y1, x2, y2);
+                return rectangle;
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the figure you want to create:");
+            Console.WriteLine("1. Line");
+            Console.WriteLine("2. Rectangle");
+            Console.WriteLine("3. Circle");
+            Console.WriteLine("4. Round");
+            Console.WriteLine("5. Ring");
+            Figure[] graphics = new Figure[2];
+            for (int i = 0; i < graphics.Length; i++)
+            {
+                if (i < graphics.Length - 1)
+                {
+                    graphics[i]=Figure.Choose();
+                    Console.WriteLine("Enter the next figure");
+                }
+                else
+                {
+                    graphics[i] = Figure.Choose();
+                    Console.WriteLine("Painting...");
+                }
+            }            
+            for (int i = 0; i < graphics.Length; i++)
+            {
+                 graphics[i].Draw();
+            }
+        }
+    }
+}
