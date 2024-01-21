@@ -1,0 +1,339 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_2._8
+{
+    public class Square
+    {
+        protected readonly bool isObstacle;
+        public bool IsObstacle => isObstacle;
+        public Square(bool isObstacle)
+        {
+            this.isObstacle = isObstacle;
+        }
+    }
+
+    public class GameObjects
+    {
+        protected int locationx;
+        protected int locationy;
+        protected int health;
+        public string name;
+        public int Locationx
+        {
+            get
+            {
+                return locationx;
+            }
+            set
+            {
+                locationx = value;
+            }
+        }
+
+        public int Locationy
+        {
+            get
+            {
+                return locationy;
+            }
+            set
+            {
+                locationy = value;
+            }
+        }
+
+        public int Health
+        {
+            get
+            {
+                return health;
+            }
+            set 
+            { 
+                health = value; 
+            }
+        }
+
+        protected GameObjects(int locationx, int locationy)
+        {
+            this.locationx = locationx;
+            this.locationy = locationy;
+        }
+    }
+    public class Wolf : GameObjects
+    {
+        public void MoveYPlus()
+        {
+            Locationy ++; 
+        }
+        public void MoveYMinus()
+        {
+            Locationy --;
+        }
+        public Wolf(int locationx, int locationy):
+            base(locationx, locationy)
+        {
+            this.locationx = locationx;
+            this.locationy = locationy;
+            this.health = 1;
+            this.name = "Волк";   
+        }
+    }
+    public class Bear : GameObjects
+    {
+        public void MoveXPlus()
+        {
+            Locationx ++;
+        }
+        public void MoveXMinus()
+        {
+            Locationx --;
+        }
+        public Bear(int locationx, int locationy) :
+            base(locationx, locationy)
+        {
+            this.locationx = locationx;
+            this.locationy = locationy;
+            this.health = 2;
+            this.name = "Медведь";
+        }
+    }
+    public class Apple : GameObjects
+    {
+        public bool IsCollect;
+        public Apple(int locationx, int locationy) :
+            base(locationx, locationy)
+        {
+            this.locationx = locationx;
+            this.locationy = locationy;
+            this.health = 2;
+            this.name = "Яблоко";
+        }
+    }
+    public class Cherry : GameObjects
+    {
+        public bool IsCollect;
+        public Cherry(int locationx, int locationy) :
+            base(locationx, locationy)
+        {
+            this.locationx = locationx;
+            this.locationy = locationy;
+            this.health = 1;
+            this.name = "Вишня";
+        }
+    }
+    public class User : GameObjects
+    {
+        public void MoveXPlus()
+        {
+            Locationx++;
+        }
+        public void MoveXMinus()
+        {
+            Locationx--;
+        }
+        public void MoveYPlus()
+        {
+            Locationy++;
+        }
+        public void MoveYMinus()
+        {
+            Locationy--;
+        }
+        public User(int locationx, int locationy) :
+            base(locationx, locationy)
+        {
+            this.locationx = locationx;
+            this.locationy = locationy;
+            this.health = 3;
+            this.name = "Игрок";
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Square[,] map = new Square[10, 10];
+            int rows=map.GetUpperBound(0)+1;
+            int cols=map.GetUpperBound(1) + 1;            
+            for (int i = 1; i < rows-1; i++)
+            {
+                map[i, 0] = new Square(true);
+                map[i, 1] = new Square(false);
+                map[i, 2] = new Square(false);
+                map[i, 3] = new Square(false);
+                map[i, 4] = new Square(false);
+                map[i, 5] = new Square(false);
+                map[i, 6] = new Square(false);
+                map[i, 7] = new Square(false);
+                map[i, 8] = new Square(false);
+                map[i, 9] = new Square(true);
+            }
+            for (int j = 0; j < cols; j++)
+            {
+                map[0,j] = new Square(true);
+                map[9, j] = new Square(true);
+            }
+            Bear bear = new Bear(6,1);
+            Wolf wolf = new Wolf(5,5);
+            Cherry cherry = new Cherry(5,5);
+            Apple apple = new Apple(4,4);
+            User user = new User(1, 5);
+            bool gaming = true;
+            Console.WriteLine("Hello! You can enter the following commands:");
+            Console.WriteLine("Up");
+            Console.WriteLine("Down");
+            Console.WriteLine("Left");
+            Console.WriteLine("Right");
+            Console.WriteLine("Collect all yammies to win. Let's go!");
+            Console.WriteLine("You're in square ({0},{1})", user.Locationx, user.Locationy);
+            Console.WriteLine("Apple in square ({0},{1})", apple.Locationx, apple.Locationy);
+            Console.WriteLine("Cherry in square ({0},{1})", cherry.Locationx, cherry.Locationy);
+            bool totheright = true;
+            bool totheup = true;
+            
+            while (gaming)
+            {
+                if (totheright)
+                {
+                    if (!(map[(bear.Locationx + 1), (bear.Locationy)].IsObstacle))
+                    {
+                        bear.MoveXPlus();
+                    }
+                    else 
+                    {
+                        totheright = false;
+                        bear.MoveXMinus();
+                        
+                    }
+                } else
+                {
+                    if (!map[(bear.Locationx - 1), (bear.Locationy)].IsObstacle)
+                    {
+                        bear.MoveXMinus();
+                    }
+                    else 
+                    {
+                        bear.MoveXPlus();
+                        totheright = true;
+                    }
+                }
+                Console.WriteLine("The bear entered square ({0},{1})", bear.Locationx, bear.Locationy);
+                if (totheup)
+                {
+                    if (!map[(wolf.Locationx), (wolf.Locationy + 1)].IsObstacle)
+                    {
+                        wolf.MoveYPlus();
+                    }
+                    else 
+                    {
+                        wolf.MoveYMinus();
+                        totheup = false;
+                    }
+                } else
+                {
+                    if (!map[(wolf.Locationx), (wolf.Locationy - 1)].IsObstacle)
+                    {
+                        wolf.MoveYMinus();
+                    }
+                    else
+                    {
+                        wolf.MoveYPlus();
+                        totheup = true;
+                    }
+                }
+                Console.WriteLine("The wolf entered square ({0},{1})", wolf.Locationx, wolf.Locationy);
+                switch (Console.ReadLine())
+                {
+                    case "Up":
+                        if (map[(user.Locationx), (user.Locationy + 1)].IsObstacle)
+                        {
+                            Console.WriteLine("You've hit an obstacle");
+                        }
+                        else
+                        {
+                            user.MoveYPlus();
+                        }
+                        break;
+                    case "Down":
+                        if (map[(user.Locationx), (user.Locationy - 1)].IsObstacle)
+                        {
+                            Console.WriteLine("You've hit an obstacle");
+                        }
+                        else
+                        {
+                            user.MoveYMinus();
+                        }
+                        break;
+                    case "Left":
+                        if (map[(user.Locationx - 1), (user.Locationy)].IsObstacle)
+                        {
+                            Console.WriteLine("You've hit an obstacle");
+                        }
+                        else
+                        {
+                            user.MoveXMinus();
+                        }
+                        break;
+                    case "Right":
+                        if (map[(user.Locationx + 1), (user.Locationx)].IsObstacle)
+                        {
+                            Console.WriteLine("You've hit an obstacle");
+                        }
+                        else
+                        {
+                            user.MoveXPlus();                            
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("You entered the wrong command");
+                        break;
+                }
+                Console.WriteLine("You're in square ({0},{1})", user.Locationx, user.Locationy);
+                if ((bear.Locationx==user.Locationx)&(bear.Locationy == user.Locationy))
+                {
+                    user.Health=user.Health-bear.Health;
+                    Console.WriteLine("You were attacked by a bear, you have {0} HP left", user.Health);
+                }
+                if ((wolf.Locationx == user.Locationx) & (wolf.Locationy == user.Locationy))
+                {
+                    user.Health = user.Health - wolf.Health;
+                    Console.WriteLine("You were attacked by a wolf, you have {0} HP left", user.Health);
+                }
+                if ((cherry.Locationx == user.Locationx) & (cherry.Locationy == user.Locationy))
+                {
+                    user.Health = user.Health + cherry.Health;
+                    cherry.IsCollect = true;
+                    cherry.Locationx = 0;
+                    cherry.Locationy = 0;
+                    Console.WriteLine("You've picked the cherry, you have {0} HP left", user.Health);
+                }
+                if ((apple.Locationx == user.Locationx) & (apple.Locationy == user.Locationy))
+                {
+                    user.Health = user.Health + apple.Health;
+                    apple.IsCollect = true;
+                    apple.Locationx = 0;
+                    apple.Locationy = 0;
+                    Console.WriteLine("You've picked the apple, you have {0} HP left", user.Health);
+                }
+                if (user.Health<=0)
+                {
+                    Console.WriteLine("You've lost");
+                    gaming=false;
+                }
+                if (apple.IsCollect&cherry.IsCollect)
+                {
+                    Console.WriteLine("You win!!!");
+                    gaming = false;
+                }
+            }
+            
+            }
+        }
+    }
+
+
