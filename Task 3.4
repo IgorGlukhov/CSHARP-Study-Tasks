@@ -1,0 +1,255 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Task_3._4
+{
+    public class DynamicArray<T> : IEnumerable, IEnumerable<T>, ICloneable
+    {
+        protected T[] array;
+        protected int capacity;
+        protected int current;
+        public int Length => current + 1;
+        public int Capacity
+        {
+            get
+            {
+                return capacity;
+            }
+            set
+            {
+                if (value != capacity)
+                {
+                    T[] newarray = new T[value];
+                    if (capacity < value)
+                    {
+                        for (int i = 0; i < capacity; i++)
+                        {
+                            newarray[i] = array[i];
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < value; i++)
+                        {
+                            newarray[i] = array[i];
+                        }
+                    }
+                    array = newarray;
+                    capacity = value;
+                }
+            }
+        }
+
+        public DynamicArray()
+        {
+            array = new T[8];
+            current = -1;
+            capacity = 8;
+        }
+        public T this[int index]
+        {
+            get
+            {
+                if (index >= Math.Abs(Capacity))
+                {
+                    throw new ArgumentOutOfRangeException("index");
+                }
+                if (index < 0)
+                {
+                    return array[Capacity + index];
+                }
+                return array[index];
+            }
+        }
+        public DynamicArray(int length)
+        {
+            array = new T[length];
+            current = -1;
+            capacity = length;
+        }
+        public DynamicArray(IEnumerable<T> sourse)
+        {
+            if (sourse == null)
+            {
+                throw new ArgumentNullException(nameof(sourse));
+            }
+            ICollection<T> collection = sourse as ICollection<T>;
+            int capacity = collection.Count;
+            if (capacity == 0)
+            {
+                array = new T[0];
+                current = -1;
+            }
+            else
+            {
+                array = new T[capacity];
+                collection.CopyTo(array, 0);
+                current = capacity - 1;
+                this.capacity = capacity;
+            }
+        }
+        public T[] Add(T t)
+        {
+            if (current + 1 < Capacity)
+            {
+                current++;
+                array[current] = t;
+                return array;
+            }
+            array = Resize();
+            current++;
+            array[current] = t;
+            return array;
+        }
+        public T[] Resize()
+        {
+            T[] newarray = new T[Capacity * 2];
+            for (int i = 0; i < Capacity; i++)
+            {
+                newarray[i] = array[i];
+            }
+            array = newarray;
+            return array;
+        }
+        public T[] ToArray()
+        {
+            T[] newarray = new T[Capacity];
+            for (int i = 0; i < Capacity; i++)
+            {
+                newarray[i] = array[i];
+            }
+            return newarray;
+        }
+        public T[] AddRange(IEnumerable<T> sourse)
+        {
+            if (sourse == null)
+            {
+                throw new ArgumentNullException(nameof(sourse));
+            }
+            ICollection<T> collection = sourse as ICollection<T>;
+            int capacity = collection.Count;
+            if (capacity == 0)
+            {
+                return array;
+            }
+            while (current + capacity >= Capacity)
+            {
+                Resize();
+            }
+            collection.CopyTo(array, current + 1);
+            current = current + capacity;
+            return array;
+        }
+        public int IndexOf(T item)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (array[i].Equals(item))
+                {
+                    return i;
+                }
+            }
+            throw new ArgumentOutOfRangeException("");
+        }
+        public bool Remove(T item)
+        {
+            try
+            {
+                int index = IndexOf(item);
+                for (int i = index; i < Length - 1; i++)
+                {
+                    array[i] = array[i + 1];
+                }
+                array[current] = default;
+                current--;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool Insert(T item, int index)
+        {
+            if (index < 0 || index >= Capacity)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+            try
+            {
+                if (current + 1 == Capacity)
+                {
+                    Resize();
+                }
+                for (int i = Length; i >= index; i--)
+                {
+                    array[i] = array[i - 1];
+                }
+                array[index] = item;
+                current++;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public IEnumerator GetEnumerator()
+        {
+            foreach (T item in array)
+            {
+                yield return item;
+            }
+        }
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            foreach (T item in array)
+            {
+                yield return item;
+            }
+        }
+        public object Clone()
+        {
+            return array.Clone();
+        }
+    }
+    public class CycledDynamicArray<T> : DynamicArray<T>, IEnumerable, IEnumerable<T>
+    {
+        public new IEnumerator<T> GetEnumerator()
+        {
+            for (;;)
+            {
+                foreach (T item in array)
+                {
+                    yield return item;
+                }
+            }
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            DynamicArray<int> arr = new DynamicArray<int>();
+            for (int i = 0; i < arr.Capacity; i++)
+            {
+                arr.Add(i + 1);
+            }
+            foreach (int item in arr)
+            {
+                Console.WriteLine(item);
+            }
+            CycledDynamicArray<int> cycled = new CycledDynamicArray<int>();
+            for (int i = 0; i < cycled.Capacity; i++)
+            {
+                cycled.Add(i + 1);
+            }
+            foreach (int item in cycled)
+            {
+                Console.WriteLine(item);
+           }
+        }
+    }
+}
+
