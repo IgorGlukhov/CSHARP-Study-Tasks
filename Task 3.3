@@ -1,0 +1,169 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_3._3
+{
+    public class DynamicArray<T> : IEnumerable, IEnumerable<T>
+    {
+        private T[] array;
+        private int current;
+        public int Length => current + 1;
+        public int Capacity => array.Length;
+        public DynamicArray()
+        {
+            array = new T[8];
+            current = -1;
+        }
+        public T this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Capacity)
+                {
+                    throw new ArgumentOutOfRangeException("index");
+                }
+                return array[index];
+            }
+        }
+        public DynamicArray(int length)
+        {
+            array = new T[length];
+            current = -1;
+        }
+        public DynamicArray(IEnumerable<T> sourse)
+        {
+            if (sourse == null)
+            {
+                throw new ArgumentNullException(nameof(sourse));
+            }
+            ICollection<T> collection = sourse as ICollection<T>;
+            int capacity = collection.Count;
+            if (capacity == 0)
+            {
+                array = new T[0];
+                current = -1;
+            }
+            else
+            {
+                array = new T[capacity];
+                collection.CopyTo(array, 0);
+                current = collection.Count - 1;
+            }
+        }
+        public T[] Add(T t)
+        {
+            if (current + 1 < Capacity)
+            {
+                current++;
+                array[current] = t;
+                return array;
+            }
+            array = Resize();
+            current++;
+            array[current] = t;
+            return array;
+        }
+        public T[] Resize()
+        {
+            T[] newarray = new T[Capacity * 2];
+            for (int i = 0; i < Capacity; i++)
+            {
+                newarray[i] = array[i];
+            }
+            array = newarray;
+            return array;
+        }
+        public T[] AddRange(IEnumerable<T> sourse)
+        {
+            if (sourse == null)
+            {
+                throw new ArgumentNullException(nameof(sourse));
+            }
+            ICollection<T> collection = sourse as ICollection<T>;
+            int capacity = collection.Count;
+            if (capacity == 0)
+            {
+                return array;
+            }
+            while (current + capacity >= Capacity)
+            {
+                Resize();
+            }
+            collection.CopyTo(array, current + 1);
+            current = current + capacity;
+            return array;
+        }
+        public int IndexOf(T item)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (array[i].Equals(item))
+                {
+                    return i;
+                }
+            }
+            throw new ArgumentOutOfRangeException("");
+        }
+        public bool Remove(T item)
+        {
+            try
+            {
+                int index = IndexOf(item);
+                for (int i = index; i < Length - 1; i++)
+                {
+                    array[i] = array[i + 1];
+                }
+                array[current] = default;
+                current--;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool Insert(T item, int index)
+        {
+            if (index < 0 || index >= Capacity)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+            try
+            {
+                if (current + 1 == Capacity)
+                {
+                    Resize();
+                }
+                for (int i = Length; i >= index; i--)
+                {
+                    array[i] = array[i - 1];
+                }
+                array[index] = item;
+                current++;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public IEnumerator GetEnumerator()
+        {
+            return array.GetEnumerator();
+        }
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return ((IEnumerable<T>)array).GetEnumerator();
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+        }
+    }
+}
