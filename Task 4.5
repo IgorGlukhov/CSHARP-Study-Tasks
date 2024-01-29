@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task_4._5
+{
+    public static class StringHelper
+    {
+        public static bool IsInt(this string text)
+        {
+            int i = 0;
+            bool isInt = true;
+            for (i = 0; i < text.Length; i++)
+            {
+                isInt &= char.IsDigit(text[i]);
+            }
+            return isInt;
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string text1 = "1";
+            string text2 = "123423";
+            string text3 = "1343-435";
+            string text4 = "145645h";
+            string text5 = "sdgsfg";
+            Console.WriteLine("{0},{1},{2},{3},{4}",text1.IsInt(), text2.IsInt(), text3.IsInt(), text4.IsInt(), text5.IsInt());
+        }
+    }
+}
