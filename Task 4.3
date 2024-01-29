@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+
+namespace Task_4._3
+    
+{
+    internal class Program
+    {
+        public delegate bool Bigger<T>(T item1, T item2);
+        public static event EventHandler Notify = delegate { };
+        public static void ArraySort<T>(T[] array, Bigger<T> bigger)
+        {            
+            if (bigger == null)
+            {
+                throw new ArgumentNullException(nameof(bigger));
+            }
+            T temp;
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int j = 0; j < array.Length; j++)
+                {
+                    if (bigger(array[j], array[i]))
+                    {
+                        temp = array[i];
+                        array[i] = array[j];
+                        array[j] = temp;
+                    }
+                }
+            }
+            Thread.Sleep(300);
+            Console.WriteLine(String.Join(" ", array));
+            OnNotify(EventArgs.Empty);
+        }
+        public static void ArraySortAsync<T>(T[] array, Bigger<T> bigger)
+        {
+            Thread thread = new Thread(() => ArraySort(array, bigger));
+            thread.Start();
+        }
+        protected static void OnNotify(EventArgs e)
+        {
+            if (Notify != null)
+            {
+                Notify(null, e);
+            }
+        }
+        static void Main(string[] args)
+        {
+            Notify += (object o, EventArgs arg) => Console.WriteLine("Sorting Finished!");
+            int[] arr = { 1, 3, 4, 6, 2, 5 };
+            ArraySort(arr, (item1, item2) => ((item1 > item2) ? true : false)); //Выводится первый
+            ArraySortAsync(arr, (item1, item2) => ((item1 > item2) ? true : false)); //После задержки выводится вторым
+            ArraySort(arr, (item1, item2) => ((item1 > item2) ? true : false)); //Выводится одновременно со вторым, так как начали работать они одновоременно, но в разных потоках
+        }
+    }
+}
+
