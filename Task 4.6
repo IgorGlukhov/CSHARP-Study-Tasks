@@ -1,0 +1,127 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Task_4._6;
+using System.Diagnostics;
+
+namespace Task_4._6
+{
+    public static class ArrayHelper
+    {
+        public delegate bool Selection(int item);
+        public static int[] ArraySearchPositive(this int[] array)
+        {
+            int j = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] > 0)
+                { 
+                    j++;
+                }
+            }
+            int[] positivearray = new int[j];
+            j = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] > 0)
+                {
+                    positivearray[j] = array[i];
+                    j++;
+                }
+            }
+            return positivearray;
+        }
+        public static int[] ArraySearchSomething(this int[] array, Selection selection)
+        {
+            int j = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (selection(array[i]))
+                {
+                    j++;
+                }
+            }
+            int[] selarray = new int[j];
+            j = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (selection(array[i]))
+                {
+                    selarray[j] = array[i];
+                    j++;
+                }
+            }
+            return selarray;
+        }
+        public static bool SelectPositive(int item)
+        {
+            return item > 0;
+        }
+    }
+}
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] array = new int[1000];
+            for (int i = 0; i < array.Length; i++)
+        {
+            array[i] = i+1;
+        }
+        ArrayHelper.Selection selection = new ArrayHelper.Selection(ArrayHelper.SelectPositive);
+        ArrayHelper.Selection anotherselection = delegate (int item)
+        { 
+            return item>0; 
+        };
+        Stopwatch stopWatch = new Stopwatch();
+        //Поиск элементов в массиве методом расширения. Затраченное время 00.0001161 секунд
+        stopWatch.Start();
+        array.ArraySearchPositive();
+        stopWatch.Stop();
+        TimeSpan ts = stopWatch.Elapsed;
+        Console.WriteLine(ts.ToString());
+        stopWatch.Reset();
+        //Поиск элементов в массиве методом без экземпляра делегата. Затраченное время 00.0004350 секунд
+        stopWatch.Start();
+        array.ArraySearchSomething(ArrayHelper.SelectPositive);
+        stopWatch.Stop();
+        ts = stopWatch.Elapsed;
+        Console.WriteLine(ts.ToString());
+        stopWatch.Reset();
+        //Поиск элементов в массиве методом через экземпляр делегата. Затраченное время 00.0000315 секунд
+        stopWatch.Start();
+        array.ArraySearchSomething(selection);
+        stopWatch.Stop();
+        ts = stopWatch.Elapsed;
+        Console.WriteLine(ts.ToString());
+        stopWatch.Reset();
+        //Поиск элементов в массиве методом через делегат в виде анонимного метода. Затраченное время 00.0000894 секунд
+        stopWatch.Start();
+        array.ArraySearchSomething(anotherselection);
+        stopWatch.Stop();
+        ts = stopWatch.Elapsed;
+        Console.WriteLine(ts.ToString());
+        stopWatch.Reset();
+        //Поиск элементов в массиве методом через делегат в виде лямбда выражения. Затраченное время 00.0000660 секунд
+        stopWatch.Start();
+        array.ArraySearchSomething((item)=>item>0);
+        stopWatch.Stop();
+        ts = stopWatch.Elapsed;
+        Console.WriteLine(ts.ToString());
+        stopWatch.Reset();
+        //Поиск элементов в массиве через LINQ-выражение. Затраченное время 00.0015263 секунд
+        stopWatch.Start();
+        var query = from item in array 
+                    where item > 0
+                    select item;
+        query.ToArray();
+        stopWatch.Stop();
+        ts = stopWatch.Elapsed;
+        Console.WriteLine(ts.ToString());
+        //Самый быстрый поиск через экземпляр делегата, самый медленный через LINQ-выражение
+    }
+}
+
