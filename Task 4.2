@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Globalization;
+
+namespace Task_4._2
+{
+    internal class Program
+    {
+        public delegate bool Bigger<T>(T item1, T item2);
+        public static void ArraySort<T>(T[] array, Bigger<T> bigger)
+        {
+            if (bigger == null)
+            {
+                throw new ArgumentNullException(nameof(bigger));
+            }
+            T temp;
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int j = 0; j < array.Length; j++)
+                {
+                    if (bigger(array[j], array[i]))
+                    {
+                        temp = array[i];
+                        array[i] = array[j];
+                        array[j] = temp;
+                    }
+                }
+            }
+        }
+        public static bool StringBigger(string item1, string item2)
+        {
+            if (item1.Length>item2.Length)
+            {
+                return true;
+            }
+            else if (item1.Length==item2.Length)
+            {
+                if (string.Compare(item1, item2) > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static bool AnotherStringBigger(string item1, string item2)
+        {
+            if (item1.Length > item2.Length)
+            {
+                return true;
+            }
+            else if (item1.Length == item2.Length)
+            {
+                for (int i = 0; i < item1.Length; i++)
+                {
+                    if (item1[i]>item2[i])
+                    {
+                        return true;
+                    }
+                    else if (item1[i] < item2[i])
+                    {
+                        return false;
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        static void Main(string[] args)
+        {
+            string[] arr = { "String", "Int", "Long", "Byte", "Char", "Strong" };
+            ArraySort(arr, StringBigger);
+            Console.WriteLine(String.Join(" ", arr));
+            string[] anotherarr = { "String", "Int", "Long", "Byte", "Char", "Strong" };
+            ArraySort(anotherarr, AnotherStringBigger);
+            Console.WriteLine(String.Join(" ", anotherarr));
+        }
+    }
+}
