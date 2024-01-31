@@ -1,0 +1,108 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Globalization;
+
+namespace Task_5._1
+{
+    internal class Program
+    { 
+        private static void CopyFilesRecursively(string sourcePath, string targetPath)
+        {
+            Directory.CreateDirectory(targetPath);
+            //Копирую файлы
+            foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+                {
+                    File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
+                }
+        }
+        public static void Run()
+        {
+            while (run)
+            {
+                if (Console.ReadLine() == "q")
+                {
+                    run = false;
+                }
+            }            
+        }
+        public static bool run=true;
+        public static void OnGoing()
+        {            
+           Thread thread = new Thread(Run);
+            thread.Start();
+        }
+        static void Main(string[] args)
+        {
+            DirectoryInfo currentdir = new DirectoryInfo(@"D:\C#\Solutions\Task 5.1\txt archive");
+            FileInfo[] items = currentdir.GetFiles();
+            DateTime[] LATime = new DateTime[items.Length];
+            DateTime[] LWTime = new DateTime[items.Length];
+            DateTime[] CTime = new DateTime[items.Length];
+            string[] FName = new string[items.Length];
+            Console.WriteLine("Choose mode:");
+            Console.WriteLine("1. Log mode");
+            Console.WriteLine("2. Backup mode");
+            Console.WriteLine("3. Exit");
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    Console.WriteLine("Log mode started");
+                    Console.WriteLine("Press 'q' to exit");
+                    StreamWriter sw = new StreamWriter(@"D:\C#\Solutions\Task 5.1\diraccess.txt");
+                    sw.WriteLine("Initial information about files:");
+                    sw.WriteLine();
+                    for (int i = 0; i < items.Length; i++)
+                    {
+                        LATime[i] = items[i].LastAccessTime;
+                        LWTime[i] = items[i].LastWriteTime;
+                        CTime[i] = items[i].CreationTime;
+                        FName[i] = items[i].Name;
+                        sw.WriteLine($"Name: {FName[i]} Creation: {CTime[i]}  LastAccess: {LATime[i]}  LastWrite: {LWTime[i]}");
+                    }
+                    CopyFilesRecursively(@"D:\C#\Solutions\Task 5.1\txt archive", $@"D:\C#\Solutions\Task 5.1\txt backup\{currentdir.CreationTime:dd-MM-yy_hh-mm-ss}");
+                    sw.WriteLine();
+                    sw.WriteLine("Log:");
+                    sw.WriteLine();
+                    OnGoing();
+                    while (run)
+                        {
+                            Thread.Sleep(1000);
+                            FileInfo[] newitems = currentdir.GetFiles();
+                            for (int i = 0; i < newitems.Length; i++)
+                            {
+                                if (LWTime[i] != newitems[i].LastWriteTime)
+                                {
+                                    LWTime[i] = newitems[i].LastWriteTime;
+                                    sw.WriteLine($"The file named: {FName[i]} was changed at: {LWTime[i]}");
+                                    CopyFilesRecursively(@"D:\C#\Solutions\Task 5.1\txt archive", $@"D:\C#\Solutions\Task 5.1\txt backup\{DateTime.Now:dd-MM-yy_hh-mm-ss}");
+                                }
+                            }
+                    }
+                    sw.Close();                    
+                    break;
+                case "2":
+                    Console.WriteLine("Choose date of backup in format dd-MM-yy_hh-mm-ss");
+                    string backupdate = Console.ReadLine();
+                    DirectoryInfo[] backupdir = new DirectoryInfo(@"D:\C#\Solutions\Task 5.1\txt backup").GetDirectories();
+                    int t = 0;
+                    for (int i = backupdir.Length-1; i >= 0; i--)
+                    {
+                        Console.WriteLine($@"Trying to backup from directory: {backupdir[i].FullName}");
+                        if (backupdir[i].Name.CompareTo(backupdate)<=0)
+                        {
+                            CopyFilesRecursively( backupdir[i].FullName, @"D:\C#\Solutions\Task 5.1\txt archive");
+                            Console.WriteLine($@"Backup from directory: {backupdir[i].FullName} complete");
+                            break;
+                        }                        
+                    }
+                    break;
+                    default:break;
+            }
+        }
+    }
+}
