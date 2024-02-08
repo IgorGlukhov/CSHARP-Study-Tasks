@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Task_7._4
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] text = { @"5", @"-2.5", @"5.75e-5", @"ыыы" };
+            string patterndefault = @"^-?[0-9]+.?[0-9]*$";
+            string patternscience = @"^-?[0-9].[0-9]+e-?[0-9]+$";
+            foreach (string item in text)
+            {
+                if (Regex.IsMatch(item, patterndefault))
+                {
+                    Console.WriteLine("Это число в обычной нотации");
+                } else if (Regex.IsMatch(item, patternscience))
+                {
+                    Console.WriteLine("Это число в научной нотации");
+                } else 
+                { 
+                    Console.WriteLine("Это не число");
+                }
+            }
+
+        }
+    }
+}
