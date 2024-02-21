@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 8.2</title>
+        <style type="text/css">
+            .Form { 
+             width: 500px; 
+             height: 350px;
+             background: rgb(24, 147, 192); 
+             border-width: 2px;
+             border-color: rgb(37, 37, 185);
+             border-style: solid;
+            }
+            .Title { 
+             width: 480px; 
+             border-color: white;
+             border-bottom: 2px;
+             border-bottom-style: solid;
+             padding-bottom: 20px;
+             padding-left: 20px;
+            }
+            .Email { 
+             width: 434px; 
+            }
+            .Text { 
+             color: white;
+             margin-bottom: 0px;
+             font-family: 'Arial';
+             font-weight: lighter ;
+            }
+            .Password { 
+             display: inline-block;
+             width: 200px;
+            }
+            .Dublicate { 
+             display: inline-block;
+             width: 200px;
+            }
+            .Password.Text { 
+             width: 214px;
+            }
+            .Box { 
+             background-color: white; 
+             color: black;
+             font-family: 'Arial';
+             font-weight: lighter ;
+             font-size: medium;
+             border-color: black;
+             margin-top: 5px;
+             visibility: visible;
+             height: 25px;     
+             border: 2px;
+             border-color: gray;
+             border-style: solid;
+             padding: 5px;
+            }
+            .Button { 
+             background-color:rgb(230, 223, 116); 
+             color: black;
+             width: 100px;
+             position: relative;
+             top: 40px;
+             left: 20px;
+             padding: 10px;
+            }
+            button:hover  {
+            background-color: rgb(96, 180, 52);
+            color: white;
+            transition: 300ms;
+            }
+            #form h2,input{ 
+             margin-left: 20px;
+            }
+            
+           </style>
+           
+    </head>
+    <body>
+        <div id="form" class="Form">
+        <h1 class="Title Text">Регистрация</h1>
+        <h2 class="Email Text">E-mail</h2>
+        <input class="Email Box"></h2>
+        <h2 id="password" class="Password Text">Пароль</h2><!--
+        --><h2 id="dublicate" class="Dublicate Text">Ещё раз</h2>
+        <input class="Password Box"></h2><!--
+        --><input class="Dublicate Box"></h2>
+        <button class="Button">Отправить</h3>
+    </div>
+    </body>
+</html>
