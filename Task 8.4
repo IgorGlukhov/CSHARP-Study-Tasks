@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 8.4</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width,
+        initial-scale=1.0, maximum-scale=1.0,
+        user-scalable=no"/>
+        <style type="text/css">
+            body{
+                height:100%;
+                background-color: black;
+            }
+            .ribbon{
+                position: absolute;
+                width: 93%;
+                top: 20%;               
+            }
+            .content{
+                position: relative;
+                background-color:aqua;
+                width:fit-content;
+                padding: 50px;
+                margin: auto;
+                font-size: small;
+                border-width: 5px;
+                border-style: solid;
+                border-color:aquamarine;
+            }   
+
+            .content::before,
+            .content::after {
+                content: '\0020';
+                display: block;
+                position:absolute;
+                margin-left: -25px;
+                top: -25px;
+                left: 50%;
+                z-index: 1;
+                width: 0;
+                height: 0;
+                overflow: hidden;
+                border: solid 25px transparent;
+                border-top: 0;
+                border-bottom-color: aquamarine;
+            }
+
+            .content::before {
+                top: -18px;
+                z-index: 2;
+                border-bottom-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="ribbon">        
+        <div class="content">        
+            Дистанции огромного размера
+        </div>
+    </div>
+    </body>
+</html>
