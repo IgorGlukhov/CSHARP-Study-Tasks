@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 8.5</title>
+        <style type="text/css">
+            body{
+                height:100%;
+                background-color:cornflowerblue;
+            }
+
+            .box{
+                position: relative;
+                top: 20%;  
+                width: 900px; 
+                background-color: antiquewhite; 
+                display: block;     
+                margin: auto;      
+            }
+            .subbox{
+                display: inline-block;
+                width: 296px;
+                padding: 0px;
+                margin: 0px;
+                border-width: 0px;
+                border-left-width: 2px;
+                border-right-width: 2px;
+                border-style: solid;
+                border-color: darkslategray;
+            }   
+            .image{
+                display: block;
+                width: 150px;
+                height: 130px;
+                margin:auto;     
+            }
+            .product{
+                width:fit-content;
+                display: block;
+                margin:auto;
+                margin-top: 10px;
+                color: brown;
+                font-size:larger;
+                font-weight:bold;
+
+            }
+            .price{
+                width:fit-content;
+                display: block;
+                margin:auto;
+                margin-top: 10px;
+            }
+            button{
+                display: block;
+                margin:auto;
+                background-color: brown;
+                color: white;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding: 5px;
+            }
+            #image1{
+                background-image: url("https://www.altaro.com/vmware/wp-content/uploads/sites/10/2020/11/technologies.svg");
+            }
+            #image2{
+                background-image: url("https://cdn-icons-png.flaticon.com/128/399/399421.png");
+                width: 128px;
+            }
+            #image3{
+                background-image: url("https://www.shareicon.net/data/128x128/2015/09/16/641594_data_512x512.png");
+                width: 130px;
+                height: 128px;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="box">        
+        <div class="subbox">        
+            <div id="image1" class="image"></div>
+            <div class="product">Виртуальный хостинг</div>
+            <div class="price">3.95$ в месяц</div>
+            <button>Подробнее</button>
+        </div><!--
+        --><div class="subbox">        
+            <div id="image2" class="image"></div>
+            <div class="product">Облачный хостинг</div>
+            <div class="price">68.95$ в месяц</div>
+            <button>Подробнее</button>
+        </div><!--
+        --><div class="subbox">        
+            <div id="image3" class="image"></div>
+            <div class="product">Выделенный сервер</div>
+            <div class="price">217.95$ в месяц</div>
+            <button>Подробнее</button>
+        </div>
+    </div>
+    </body>
+</html>
