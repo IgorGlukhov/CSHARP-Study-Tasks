@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 8.8</title>
+        <style type="text/css">
+            body{
+                height:100%;
+                background-color: black;
+            }
+            .box{
+                position: relative;
+                width: 400px;
+                margin:auto;
+            }
+            header{
+                color:rgb(245, 198, 96);
+                display:block;
+                margin: 0px;
+                padding: 10px;
+                font-size:25px;
+                height: 30px;
+                width: 100px;
+                font-weight: bolder;
+            }
+            .content{
+                background-color:rgb(214, 213, 207);
+                display:block;
+                padding: 10px;
+                position: relative;
+                width:400px;
+                border-radius: 0 0 10px 10px;
+            }
+            .content::before,
+            .content::after {
+                content: '\0020';
+                display: block;
+                position:absolute;
+                top: -50px;
+                left: 90px;
+                z-index: 1;
+                width: 310px;
+                height: 0;
+                overflow: hidden;
+                border-top: 0;
+                border-right: 0;
+                border-left: solid 20px;
+                border-bottom: solid 50px;
+                border-bottom-color: rgb(214, 213, 207);
+            }
+        </style>
+    </head>
+    <body>
+    <div class="box">
+    <header>ЭКГ-5</header>
+    <div class="content">        
+    ЭКГ-5 - карьерный гусеничный экскававтор с ковшом вместимостью 5м<sup>3</sup> - электрическая <!--
+    -->карьерная полноповоротная лопата на гусеничном ходу, предназначенная для выемки <!--
+    -->и погрузки в транспортные средства полезных ископаемых и вскрышных пород, в том <!--
+    -->числе тяжелых скальных, предварительно разрыхленных взрывом, в угольной промышленности, <!--
+    -->а также для выполнения больших объемов земляных работ в промышленном строительстве.    
+    </div>
+    </div>
+    </body>
+</html>
