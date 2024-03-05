@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 9.1</title>
+        <style type="text/css">
+
+           </style>
+    </head>
+    <body>
+        <div id="pop">
+            у попа была собака
+        </div> 
+        <script>
+            var obj= document.getElementById('pop');
+            var expression = obj.innerText;
+            var ignore = ["?", "!", ":", ";", ",", ".", " ", "\t", "\r"];
+            var letters = [];
+            var words = expression.split(" "); 
+            words.forEach(function (word) {
+                word.split('').forEach(function (letter, i) {                    
+                    if ( ignore.indexOf(letter) == -1 & word.indexOf(letter, i + 1)!=-1) {
+                        letters.push(letter);
+                    }
+                });
+            });
+            var result = expression.split('').filter((letter)=>letters.indexOf(letter) == -1).join('');
+            obj.innerText = result;
+        </script>
+    </body>
+</html>
