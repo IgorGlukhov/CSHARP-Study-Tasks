@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 9.2</title>
+        <style type="text/css">
+
+           </style>
+    </head>
+    <body>
+        <div id="calc">
+            3.5 +4*10-5.3 /5=
+        </div> 
+        <script>
+            var obj= document.getElementById('calc');
+            var expression = obj.innerText;
+            var setsyms=/[\+\-\*\/\=]/;
+            var nums=[];
+            var syms=[];
+            var numsnspaces = expression.split(setsyms);
+            var num;            
+            numsnspaces.forEach(function(numorspace){
+                num=numorspace.trim();
+                nums.push(+num);
+            });
+            var result=nums[0];
+            expression.split('').forEach(function(sym)
+            {
+                if(sym.search(setsyms)!=-1)
+                {
+                    syms.push(sym);
+                }
+            }                
+            );
+            syms.forEach(function(symb, i)
+                {
+                    switch (symb)
+                    {
+                        case "+":
+                        result=result+nums[i+1];
+                        break;
+                        case "-":
+                        result=result-nums[i+1];
+                        break;
+                        case "*":
+                        result=result*nums[i+1];
+                        break;
+                        case "/":
+                        result=result/nums[i+1];
+                        break;
+                        case "=":
+                        obj.innerText = result;
+                        break;
+                    }
+                }
+            );
+        </script>
+    </body>
+</html>
