@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Task 9.4.2</title>
+  <style type="text/css">
+    footer,
+    header,
+    section {
+      text-align: center;
+      margin: 20px auto;
+      font-size: 32px;
+    }
+
+    .timer__item {
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <header>SIMPLE GALLERY</header>
+    <main>
+      <section>
+        <div>Контент 2</div>
+      </section>
+      <section>
+        <button onclick="toPrevious()">
+          Предыдущая
+        </button>
+        <button onclick="toNext()">
+          Следующая
+        </button>
+      </section>
+      <section>
+        <button onclick="run()">
+          Пуск
+        </button>
+        <button onclick="pause()">
+          Пауза
+        </button>
+      </section>
+    </main>
+    <footer>
+      <div class="timer">
+        <div class="timer__items">
+          <div class="timer__item timer__minutes">00:</div>
+          <div class="timer__item timer__seconds">00</div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script>
+    var timer = 5;
+    function getSecs(secs) {
+      if (secs >= 10) {
+        return secs + "";
+      } else {
+        return "0" + secs;
+      }
+    };
+    document.querySelector(".timer__seconds").innerHTML = getSecs(timer);
+    function countdown() {
+      timer = timer - 1;
+      document.querySelector(".timer__seconds").innerHTML = getSecs(timer);
+    };
+    function toNext() {
+      window.location.replace("D:/C%23/Solutions/Task 9/Task 9.4.3.html");
+    };
+    function toPrevious() {
+      window.location.replace("D:/C%23/Solutions/Task 9/Task 9.4.1.html");
+    };
+    function run(){
+      myInterval=setInterval(countdown, 1000);
+      myTimeout=setTimeout(toNext, timer*1000);
+    };
+    function pause(){
+      clearInterval(myInterval);
+      clearInterval(myTimeout);
+    };
+    var myInterval=setInterval(countdown, 1000);
+    var myTimeout=setTimeout(toNext, timer*1000);
+  </script>
+</body>
+
+</html>
