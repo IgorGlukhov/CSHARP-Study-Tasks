@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 9.3</title>
+        <style type="text/css">
+            .list{
+                vertical-align: top;
+                display:inline-block;
+                height: 160px;
+                width: 100px;
+            }
+            .controls{
+                vertical-align: top;
+                display:inline-block;
+                height: 160px;
+                width: 50px;
+            }
+            button{
+                display:block;
+                margin:auto;
+                height: 40px;
+                width: 50px;
+            }
+            .header{
+                height: 40px;
+                width: 100px;
+            }
+            h1{
+                position: relative;
+                top: 30%;
+                height: 20px;
+                width: 100px;
+                margin:auto;
+                font-size: medium;
+                text-align: center;
+            }
+            .menu{
+                border-style: solid;
+                border-color: black;
+                height: 116px;
+                width: 96px;
+                div{
+                    height: 23.2px;
+                    width: 96px; 
+                }
+                div:hover{
+                    background-color: aqua;
+                    cursor: pointer;
+                }                
+            }
+            .active{
+                background-color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="list">
+            <div class="header">
+                <h1>Available</h1>
+            </div>
+            <div  id="available" class="menu">
+                    <div>Option 1</div>
+                    <div>Option 2</div>
+                    <div>Option 3</div>
+                    <div>Option 4</div>
+                    <div>Option 5</div>
+            </div>
+        </div>
+        <div class="controls">
+            <button onclick="allToSelected()">&gt&gt</button>
+            <button onclick="avToSelected()">&gt</button>
+            <button onclick="selToAvailable()">&lt</button>
+            <button onclick="allToAvailable()">&lt&lt</button>
+        </div> 
+        <div class="list">
+            <div class="header">
+                <h1>Selected</h1>
+            </div>
+            <div  id="selected" class="menu">
+
+            </div>
+        </div>
+        <script>
+            document.querySelectorAll(".menu>div")
+                .forEach(function(objs) {
+                objs.addEventListener("click",  function(){ 
+                this.classList.toggle('active');                
+                 });
+                });
+            function allToSelected(){
+                var avlist=document.querySelectorAll("#available>div").forEach(function(elem){
+                    var option = elem.cloneNode(true);
+                    option.classList.remove("active");
+                    option.addEventListener("click",  function(){this.classList.toggle('active');});
+                    document.getElementById('selected').appendChild(option);
+                    elem.parentNode.removeChild(elem);
+                });
+            }
+                function allToAvailable(){
+                var sellist=document.querySelectorAll("#selected>div").forEach(function(elem){
+                    var option = elem.cloneNode(true);
+                    option.classList.remove("active");
+                    option.addEventListener("click",  function(){this.classList.toggle('active');});
+                    document.getElementById('available').appendChild(option);
+                    elem.parentNode.removeChild(elem);
+                });
+            }
+            function avToSelected(){
+                var avlist=document.querySelectorAll("#available>.active").forEach(function(elem){
+                    var option = elem.cloneNode(true);
+                    option.classList.remove("active");
+                    option.addEventListener("click",  function(){this.classList.toggle('active');});
+                    document.getElementById('selected').appendChild(option);
+                    elem.parentNode.removeChild(elem);
+                });
+            }
+                function selToAvailable(){
+                var sellist=document.querySelectorAll("#selected>.active").forEach(function(elem){
+                    var option = elem.cloneNode(true);
+                    option.classList.remove("active");
+                    option.addEventListener("click",  function(){this.classList.toggle('active');});
+                    document.getElementById('available').appendChild(option);
+                    elem.parentNode.removeChild(elem);
+                });
+            }      
+        </script>
+    </body>
+</html>
