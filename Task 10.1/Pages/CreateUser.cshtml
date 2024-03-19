@@ -1,0 +1,36 @@
+﻿
+@using Task_10._1.PL;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Create user</title>
+</head>
+<body>
+    <div class="container">
+        <form method="post" class="form-horizontal">
+            <div>Type user name:</div>
+            <input type="text" name="username" class="form-control" />
+            <div>Type date of birthday in format dd/MM/yyyy:</div>
+            <input type="text" name="birthday" class="form-control" />
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    @{
+        if (Request["username"] == null || Request["birthday"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        try
+        {
+            WEBLogic.UserBL.Add(Request["username"], Request["birthday"]);
+            <div>User has been added successfully</div>
+        }
+        catch (Exception e)
+        {
+            <div>@e.Message</div>
+        }
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>
