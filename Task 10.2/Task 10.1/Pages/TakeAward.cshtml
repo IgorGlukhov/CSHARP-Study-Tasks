@@ -1,0 +1,64 @@
+﻿
+@using Task_10._1.PL;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Take award</title>
+</head>
+<body>
+    <div class="container">
+        <form method="post" class="form-horizontal">
+            <div>Type award ID:</div>
+            <input type="text" name="awardID" class="form-control" />
+            <div>Type user ID:</div>
+            <input type="text" name="userID" class="form-control" />
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    @{
+        if (Request["awardID"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+
+        if (!WEBLogic.IsInt(Request["awardID"], out int _awardid))
+        {
+            <div>Award ID is not a number</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+
+        if (!WEBLogic.CheckAward(_awardid))
+        {
+            <div>Award with that ID does not exist</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        if (Request["userID"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+
+        if (!WEBLogic.IsInt(Request["userID"], out int _userid))
+        {
+            <div>User ID is not a number</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+
+        if (!WEBLogic.CheckUser(_userid))
+        {
+            <div>User with that ID does not exist</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        WEBLogic.UserBL.RemoveAward(_userid, _awardid);
+
+        WEBLogic.AwardBL.RemoveOwner(_userid, _awardid);
+        <div>Award has been taken successfully</div>
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>
