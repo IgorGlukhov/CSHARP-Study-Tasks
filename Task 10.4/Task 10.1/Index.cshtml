@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Main menu</title>
+    <style type="text/css">
+        a {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <h1>User: @User.Identity.Name <a href="~/Pages/Logout"> SIGN OUT </a></h1>
+            }
+            else
+            {
+                <h1>Guest: <a href="~/Pages/Login"> SIGN IN </a></h1>
+            }
+        }
+    </div>
+    <div>Menu options: </div>    
+    <a href="~/Pages/CreateUser">1. Create new user</a>
+    <a href="~/Pages/CreateAward">2. Create new award</a>
+    <a href="~/Pages/GiveAward">3. Give award to user</a>
+    <a href="~/Pages/TakeAward">4. Take award from user</a>
+    <a href="~/Pages/ShowUser">5. Show all users</a>
+    <a href="~/Pages/ShowAward">6. Show all awards</a>
+    <a href="~/Pages/RemoveUser">7. Remove user</a>
+    <a href="~/Pages/RemoveAward">8. Remove award</a>
+    <a href="~/Pages/EditUser">9. Edit user</a>
+    <a href="~/Pages/EditAward">10. Edit award</a>
+    <a href="~/Pages/ShowImage">11. Show all images</a>
+</body>
+</html>

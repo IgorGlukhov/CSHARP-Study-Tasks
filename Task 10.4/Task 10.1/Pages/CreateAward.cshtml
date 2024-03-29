@@ -1,0 +1,45 @@
+﻿@{
+    if (!User.Identity.IsAuthenticated)
+    {
+        Response.Redirect("~/Pages/Login");
+        return;
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Create award</title>
+</head>
+<body>
+    <div class="container">
+        <form method="post" class="form-horizontal">
+            <div>Type a title of award:</div>
+            <input type="text" name="title" class="form-control" />
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    @{
+        if (!User.Identity.IsAuthenticated)
+        {
+            Response.SetStatus(HttpStatusCode.Unauthorized);
+            return;
+        }
+        if (Request["title"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        try
+        {
+            Task_10._1.Entities.Award newaward = new Task_10._1.Entities.Award() { Title = Request["title"], AwardID = Guid.NewGuid().ToString() };
+            Task_10._1.PL.WEBLogic.AwardBL.Add(newaward);
+            <div>Award has been added successfully</div>
+        }
+        catch (Exception e)
+        {
+            <div>@e.Message</div>
+        }
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>

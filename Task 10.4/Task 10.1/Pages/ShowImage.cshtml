@@ -1,0 +1,31 @@
+﻿@using Task_10._1.PL;
+@using Task_10._1.Entities;
+@{
+    if (!User.Identity.IsAuthenticated)
+    {
+        Response.Redirect("~/Pages/Login");
+        return;
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Show awards</title>
+</head>
+<body>
+    @{
+        IEnumerable<Image> _allImages = WEBLogic.ImageBL.GetAll();
+        int _count = _allImages.Count();
+        if (_count == 0)
+        {
+            <div>Empty </div>
+        }
+        foreach (Image _image in _allImages)
+        {
+            <div>@(_image.ImageID)</div>
+            <div> <img src="~/Pages/Photos?id=@_image.ImageID" /> </div>
+        }
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>

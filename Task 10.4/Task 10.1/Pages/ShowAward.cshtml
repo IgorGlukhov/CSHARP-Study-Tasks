@@ -1,0 +1,43 @@
+﻿@using Task_10._1.PL;
+@using Task_10._1.Entities;
+@{
+    if (!User.Identity.IsAuthenticated)
+    {
+        Response.Redirect("~/Pages/Login");
+        return;
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Show awards</title>
+</head>
+<body>
+    @{
+        IEnumerable<Award> _allAwards = WEBLogic.AwardBL.GetAll();
+        int _count = _allAwards.Count();
+        if (_count == 0)
+        {
+            <div>Empty </div>
+        }
+        foreach (Award _award in _allAwards)
+        {
+            <div>@(_award.AwardID.ToString()). Title: @(_award.Title)</div>
+            <div>Owners: </div>
+            if (_award.OwnerID.Count == 0)
+            {
+                <div>Empty </div>
+
+            }
+            else
+            {
+                foreach (string _ownerId in _award.OwnerID)
+                {
+                    <div>@(WEBLogic.UserBL.GetByID(_ownerId).Name) </div>
+                }
+            }
+        }
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>
