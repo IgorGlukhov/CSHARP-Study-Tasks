@@ -1,0 +1,66 @@
+﻿@using Task_10._1.PL;
+@using Task_10._1.Entities;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Edit award</title>
+</head>
+<body>
+    @{ if (Request["ID"] == null)
+        {
+            <div class="container">
+                <form id="firstform" method="get" class="form-horizontal">
+                    <div>Type award ID:</div>
+                    <input type="text" name="ID" class="form-control" />
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+        }
+    }
+    @{
+        if (Request["ID"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        string _id = Request["ID"];
+        if (!WEBLogic.CheckAward(_id))
+        {
+            <div>Award with that ID does not exist</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        Award _award = WEBLogic.AwardBL.GetByID(_id);
+        <div class="container">
+            <form method="post" class="form-horizontal">
+                <div>
+                    @(_award.AwardID.ToString()). Title:
+                    <input type="text" name="title" value="@(_award.Title)" class="form-control" />
+                </div>
+                <div>Users: </div>
+                @{ if (_award.OwnerID.Count == 0)
+                    {
+                        <div>Empty </div>
+                    }
+                    else
+                    {
+                        foreach (string _ownerId in _award.OwnerID)
+                        {
+                            <div>@(WEBLogic.UserBL.GetByID(_ownerId).Name) </div>
+                        }
+                    }
+                }
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+        if (Request["title"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        WEBLogic.AwardBL.EditTitle(_id, Request["title"]);
+        <div>Award with @(_id.ToString()) ID has been edited successfully</div>
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>

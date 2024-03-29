@@ -1,0 +1,85 @@
+﻿@using Task_10._1.PL;
+@using System.Configuration;
+@using System.Drawing.Imaging;
+@using System.IO;
+@using Task_10._1.Entities;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Create user</title>
+</head>
+<body>
+    <div class="container">
+        <form method="post" class="form-horizontal" enctype="multipart/form-data">
+            <div>Type user name:</div>
+            <input type="text" name="username" class="form-control" />
+            <div>Type date of birthday in format dd.MM.yyyy:</div>
+            <input type="text" name="birthday" class="form-control" />
+            <div>Upload your photo:</div>
+            <input type="file" name="uploaded" class="form-control" />
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    @{
+        if (Request["username"] == null || Request["birthday"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        try
+        {
+            if (!DateTime.TryParseExact(Request["birthday"], "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AdjustToUniversal, out DateTime _dateOfBirth))
+            {
+                throw new ArgumentException("Incorrect datetime");
+            }
+            User newuser = new User() { Name = Request["username"], DateOfBirth = _dateOfBirth, UserID = Guid.NewGuid().ToString() };
+            WEBLogic.UserBL.Add(newuser);
+            var maxWidth = int.Parse(ConfigurationManager.AppSettings["image:maxwidth"]);
+            var maxHeight = int.Parse(ConfigurationManager.AppSettings["image:maxheight"]);
+            if (Request.Files["uploaded"].FileName != "")
+            {
+                var file = Request.Files["uploaded"];
+                var image = System.Drawing.Bitmap.FromStream(file.InputStream);
+                var thumbnail = ImageHelper.Resize(image, maxWidth, maxHeight, reduceOnly: true);
+                var memStr = new MemoryStream();
+                image.Save(memStr, ImageFormat.Png);
+                byte[] data = memStr.ToArray();
+                Task_10._1.Entities.Image newimage = new Task_10._1.Entities.Image() { Title = Request["username"], Data = data, ImageID = Guid.NewGuid().ToString() };
+                memStr.Dispose();
+                var newmemStr = new MemoryStream();
+                thumbnail.Save(newmemStr, ImageFormat.Png);
+                byte[] newdata = newmemStr.ToArray();
+                Task_10._1.Entities.Image newthumbnail = new Task_10._1.Entities.Image() { Title = Request["username"], Data = newdata, ImageID = Guid.NewGuid().ToString() };
+                WEBLogic.ImageBL.Add(newimage);
+                WEBLogic.ImageBL.Add(newthumbnail);
+                WEBLogic.UserBL.SetImage(newuser.UserID, newimage.ImageID, newthumbnail.ImageID);
+            }
+            else
+            {
+                var image = System.Drawing.Bitmap.FromFile(@"C:\Users\1\Desktop\default.jpg");
+                var thumbnail = ImageHelper.Resize(image, maxWidth, maxHeight, reduceOnly: true);
+                var memStr = new MemoryStream();
+                image.Save(memStr, ImageFormat.Png);
+                byte[] data = memStr.ToArray();
+                Task_10._1.Entities.Image newimage = new Task_10._1.Entities.Image() { Title = "defaultimg", Data = data, ImageID = "defaultimg" };
+                memStr.Dispose();
+                var newmemStr = new MemoryStream();
+                thumbnail.Save(newmemStr, ImageFormat.Png);
+                byte[] newdata = newmemStr.ToArray();
+                Task_10._1.Entities.Image newthumbnail = new Task_10._1.Entities.Image() { Title = "defaultthumb", Data = newdata, ImageID = "defaultthumb" };
+                WEBLogic.ImageBL.Add(newimage);
+                WEBLogic.ImageBL.Add(newthumbnail);
+                WEBLogic.UserBL.SetImage(newuser.UserID, newimage.ImageID, newthumbnail.ImageID);
+            }
+            <div>User has been added successfully</div>
+        }
+        catch (Exception e)
+        {
+            <div>@e.Message</div>
+            <div>@Request.Files["uploaded"].FileName</div>
+            <a href="~/Index">Go back</a>
+        }
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>

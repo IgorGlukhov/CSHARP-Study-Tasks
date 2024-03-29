@@ -1,0 +1,40 @@
+﻿@using Task_10._1.PL;
+@using Task_10._1.Entities;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Remove award</title>
+</head>
+<body>
+    <div class="container">
+        <form method="post" class="form-horizontal">
+            <div>Type award ID:</div>
+            <input type="text" name="ID" class="form-control" />
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    @{
+        if (Request["ID"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        string _id = Request["ID"];
+        if (!WEBLogic.CheckAward(_id))
+        {
+            <div>Award with that ID does not exist</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        IEnumerable<User>
+        _allUsers = WEBLogic.UserBL.GetAll();
+        foreach (User _user in _allUsers)
+        {
+            _user.AwardID.Remove(_id);
+        }
+        WEBLogic.AwardBL.Remove(_id);
+        <div>Award with @(_id.ToString()) ID has been removed successfully</div>
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿@using Task_10._1.PL;
+@using Task_10._1.Entities;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Show users</title>
+</head>
+<body>
+    @{
+        IEnumerable<User> _allUsers = WEBLogic.UserBL.GetAll();
+        int _count = _allUsers.Count();
+        if (_count == 0)
+        {
+            <div>Empty </div>
+        }
+        foreach (User _user in _allUsers)
+        {
+            <div>@(_user.UserID.ToString()). Name: @(_user.Name)</div>
+            <div>Date of birth: @(_user.DateOfBirth.ToShortDateString())</div>
+            <div>Age: @(_user.Age.ToString())</div>
+            <div>
+                <img src="~/Pages/Photos?id=@_user.ThumbID" />
+            </div>
+            <div>Awards: </div>
+            if (_user.AwardID.Count == 0)
+            {
+                <div>Empty </div>
+
+            }
+            else
+            {
+                foreach (string _awardId in _user.AwardID)
+                {
+                    <div>@(WEBLogic.AwardBL.GetByID(_awardId).Title) </div>
+                }
+            }
+        }
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>
