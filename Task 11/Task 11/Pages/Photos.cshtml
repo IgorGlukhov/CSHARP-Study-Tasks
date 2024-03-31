@@ -1,0 +1,10 @@
+﻿@{
+    if (IsPost)
+    {
+        Response.SetStatus(HttpStatusCode.NotFound);
+        return;
+    }
+    var image = Task_11.PL.WEBLogic.ImageBL.GetByID(Request["Id"]);
+
+    Response.WriteBinary(image.Data, "image/png");
+}

@@ -1,0 +1,41 @@
+﻿@using Task_11.PL;
+@using Task_11.Entities;
+@{
+    if (!User.IsInRole("Admins")) 
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+        return;
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Remove user</title>
+</head>
+<body>
+    <div class="container">
+        <form method="post" class="form-horizontal">
+            <div>Type user ID:</div>
+            <input type="text" name="ID" class="form-control" />
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    @{
+        if (Request["ID"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        string _id = Request["ID"];
+        if (!WEBLogic.CheckUser(_id))
+        {
+            <div>User with that ID does not exist</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        WEBLogic.UserBL.Remove(_id);
+        <div>User with @(_id.ToString()) ID has been removed successfully</div>
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>

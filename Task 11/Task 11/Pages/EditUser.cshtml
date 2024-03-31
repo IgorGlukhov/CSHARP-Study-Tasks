@@ -1,0 +1,89 @@
+﻿@using Task_11.PL;
+@using Task_11.Entities;
+@{
+    if (!User.Identity.IsAuthenticated)
+    {
+        Response.Redirect("~/Pages/Login");
+        return;
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A&U Edit user</title>
+</head>
+<body>
+    @{ if (Request["ID"] == null)
+        {
+            <div class="container">
+                <form id="firstform" method="get" class="form-horizontal">
+                    <div>Type user ID:</div>
+                    <input type="text" name="ID" class="form-control" />
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+        }
+    }
+    @{
+        if (Request["ID"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        string _id = Request["ID"];
+        if (!WEBLogic.CheckUser(_id))
+        {
+            <div>User with that ID does not exist</div>
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        User _user = WEBLogic.UserBL.GetByID(_id);
+        <div class="container">
+            <form method="post" class="form-horizontal">
+                <div>
+                    @(_user.UserID.ToString()). Name:
+                    <input type="text" name="name" value="@(_user.Name)" class="form-control" />
+                </div>
+                <div>
+                    Date of birth:
+                    <input type="text" name="date" value="@(_user.DateOfBirth.ToShortDateString())" class="form-control" />
+                </div>
+                <div>Age: @(_user.Age.ToString())</div>
+                <div>Awards: </div>
+                @{ if (_user.AwardID.Count == 0)
+                    {
+                        <div>Empty </div>
+                    }
+                    else
+                    {
+                        foreach (string _awardId in _user.AwardID)
+                        {
+                            <div>@(WEBLogic.AwardBL.GetByID(_awardId).Title) </div>
+                        }
+                    }
+                }
+                <div>
+                    <img src="~/Pages/Photos?id=@_user.ThumbID" />
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+        if (Request["name"] == null)
+        {
+            <a href="~/Index">Go back</a>
+            return;
+        }
+        if (!DateTime.TryParseExact(Request["date"], "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AdjustToUniversal, out DateTime _dateOfBirth))
+        {
+            <div>Incorrect datetime</div>
+            <a href="~/Index">Go back</a>
+            return;
+
+        }
+        WEBLogic.UserBL.EditName(_id, Request["name"]);
+        WEBLogic.UserBL.EditDateOfBirth(_id, _dateOfBirth);
+        <div>User with @(_id.ToString()) ID has been edited successfully</div>
+    }
+    <a href="~/Index">Go back</a>
+</body>
+</html>
